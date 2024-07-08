@@ -35,7 +35,7 @@ where
         }
     }
 
-    pub const fn get_desctiption(&self) -> &String {
+    pub fn get_desctiption(&self) -> &str {
         &self.description
     }
 
