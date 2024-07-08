@@ -13,7 +13,7 @@ pub enum Feedback<'a, I: Iterator<Item = &'a String>> {
 }
 
 pub trait UserInteraction {
-    fn get_string(&mut self, title: impl Display) -> String;
+    fn get_string(&mut self, title: Option<impl Display>, prompt: impl Display) -> String;
     fn select_item(&mut self, title: Option<impl Display>, items: &[impl Display]) -> usize;
     fn select_multipe(
         &mut self,
