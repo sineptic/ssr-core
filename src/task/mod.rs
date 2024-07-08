@@ -65,17 +65,19 @@ where
         &mut self,
         respondent: impl FnOnce(&String) -> String,
     ) -> Feedback<impl Iterator<Item = &String>> {
-        self.last_repetition_time = SystemTime::now();
+        let now = SystemTime::now();
         match self
             .correct_answers
             .contains(&respondent(&self.description))
         {
             true => {
-                self.level.success();
+                self.level.success(now);
+                self.last_repetition_time = now;
                 Feedback::CorrectAnswer
             }
             false => {
-                self.level.failure();
+                self.level.failure(now);
+                self.last_repetition_time = now;
                 Feedback::WrongAnswer {
                     correct_answers: self.correct_answers.iter(),
                     explanation: &self.explanation,
