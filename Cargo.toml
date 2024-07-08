@@ -3,7 +3,9 @@ name = "ssr-core"
 description = "lib for spaced repetition app"
 repository = "https://github.com/sineptic/ssr-core"
 license = "MIT"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 
 [dependencies]
+serde = { version = "1.0.204", features = ["derive"] }
+thiserror = "1.0.61"
