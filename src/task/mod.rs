@@ -1,11 +1,7 @@
-use crate::level::TaskLevel;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::BTreeSet,
-    time::{Duration, SystemTime},
-};
+use std::{fmt::Display, time::Duration};
 
-pub mod task_facade;
+pub mod level;
 
 #[derive(Debug, Clone)]
 pub enum Feedback<'a, I: Iterator<Item = &'a String>> {
@@ -16,73 +12,29 @@ pub enum Feedback<'a, I: Iterator<Item = &'a String>> {
     },
 }
 
-#[derive(Serialize, Deserialize)]
-#[serde(bound(deserialize = "Level: TaskLevel"))]
-pub struct Task<Level>
-where
-    Level: TaskLevel,
-{
-    level: Level,
-    last_repetition_time: SystemTime,
-    description: String,
-    correct_answers: BTreeSet<String>,
-    explanation: Option<String>,
+pub trait UserIteraction {
+    fn get_string(&mut self, title: impl Display) -> String;
+    fn select_item(&mut self, title: Option<impl Display>, items: &[impl Display]) -> usize;
+    fn select_multipe(
+        &mut self,
+        title: Option<impl Display>,
+        items: &[impl Display],
+    ) -> Box<[bool]>;
 }
 
-impl<Level> Task<Level>
-where
-    Level: TaskLevel,
-{
-    /// O(1)
-    pub fn new(
+pub trait Task<'a>: Serialize + Deserialize<'a> {
+    fn new(
         description: String,
-        correct_answers: BTreeSet<String>,
+        correct_answers: impl IntoIterator<Item = String>,
         explanation: Option<String>,
-    ) -> Self {
-        Self {
-            level: Level::default(),
-            last_repetition_time: SystemTime::now(),
-            description,
-            correct_answers,
-            explanation,
-        }
-    }
+    ) -> Self;
 
-    /// O(1)
-    pub fn get_desctiption(&self) -> &str {
-        &self.description
-    }
+    fn get_desctiption(&self) -> &str;
 
-    /// O(1)
-    pub fn until_next_repetition(&self) -> Duration {
-        (self.last_repetition_time + self.level.duration())
-            .duration_since(SystemTime::now())
-            .unwrap_or_default()
-    }
+    fn until_next_repetition(&self) -> Duration;
 
-    /// O(log(correct_answers))
-    pub fn complete(
+    fn complete(
         &mut self,
-        respondent: impl FnOnce(&String) -> String,
-    ) -> Feedback<impl Iterator<Item = &String>> {
-        let now = SystemTime::now();
-        match self
-            .correct_answers
-            .contains(&respondent(&self.description))
-        {
-            true => {
-                self.level.success(now);
-                self.last_repetition_time = now;
-                Feedback::CorrectAnswer
-            }
-            false => {
-                self.level.failure(now);
-                self.last_repetition_time = now;
-                Feedback::WrongAnswer {
-                    correct_answers: self.correct_answers.iter(),
-                    explanation: &self.explanation,
-                }
-            }
-        }
-    }
+        iteractoin: impl UserIteraction,
+    ) -> Feedback<impl Iterator<Item = &String>>;
 }
