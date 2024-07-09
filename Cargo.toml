@@ -1,6 +1,6 @@
 [package]
 name = "ssr-core"
-description = "lib for spaced repetition app"
+description = "traits for spaced repetition libs"
 repository = "https://github.com/sineptic/ssr-core"
 license = "MIT"
 version = "0.9.0"
