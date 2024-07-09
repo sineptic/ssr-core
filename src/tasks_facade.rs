@@ -11,7 +11,7 @@ pub enum Error {
     },
 }
 
-pub trait TaskFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
+pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn get_name(&self) -> &str;
     fn tasks_total(&self) -> usize;
     fn tasks_to_complete(&self) -> usize;
