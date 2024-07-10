@@ -21,7 +21,7 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn complete_task(
         &mut self,
         interaction: impl UserInteraction,
-    ) -> Result<Feedback<impl Iterator<Item = String>>, Error>;
+    ) -> Result<Feedback<impl IntoIterator<Item = String>>, Error>;
     fn insert(&mut self, task: T);
     fn take(&mut self, name: String) -> Option<T>;
 }
