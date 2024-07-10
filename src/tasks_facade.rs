@@ -9,6 +9,8 @@ pub enum Error {
     NoTaskToComplete {
         time_until_next_repetition: Duration,
     },
+    #[error("tasks facade is empty")]
+    NoTask,
 }
 
 pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
