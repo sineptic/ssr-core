@@ -28,7 +28,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn until_next_repetition(&self) -> Duration;
 
     fn complete(
-        &mut self,
+        self,
         interaction: impl UserInteraction,
-    ) -> Feedback<impl IntoIterator<Item = String>>;
+    ) -> (Self, Feedback<impl IntoIterator<Item = String>>);
 }
