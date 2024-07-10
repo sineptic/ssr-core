@@ -1,4 +1,4 @@
-use crate::task::{Feedback, Task};
+use crate::task::{Feedback, Task, UserInteraction};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 use thiserror::Error;
@@ -20,7 +20,7 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn tasks_to_complete(&self) -> usize;
     fn complete_task(
         &mut self,
-        respondent: impl FnOnce(&str) -> String,
+        interaction: impl UserInteraction,
     ) -> Result<Feedback<impl Iterator<Item = &String>>, Error>;
     fn insert(&mut self, task: T);
     fn take(&mut self, name: String) -> Option<T>;
