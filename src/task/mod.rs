@@ -23,12 +23,6 @@ pub trait UserInteraction {
 }
 
 pub trait Task<'a>: Serialize + Deserialize<'a> {
-    fn new(
-        description: String,
-        correct_answers: impl IntoIterator<Item = String>,
-        explanation: Option<String>,
-    ) -> Self;
-
     fn get_desctiption(&self) -> &str;
 
     fn until_next_repetition(&self) -> Duration;
