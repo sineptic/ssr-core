@@ -23,5 +23,11 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
         interaction: impl UserInteraction,
     ) -> Result<Feedback<impl IntoIterator<Item = String>>, Error>;
     fn insert(&mut self, task: T);
-    fn take(&mut self, name: String) -> Option<T>;
+
+    fn iter<'t>(&'t self) -> impl Iterator<Item = &'t T>
+    where
+        T: 't;
+    /// Remove task.
+    /// Returns whether such an element was present.
+    fn remove(&mut self, task: &T) -> bool;
 }
