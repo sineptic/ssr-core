@@ -4,11 +4,11 @@ use std::{fmt::Display, time::Duration};
 pub mod level;
 
 #[derive(Debug, Clone)]
-pub enum Feedback<'a, I: Iterator<Item = &'a String>> {
+pub enum Feedback<I: Iterator<Item = String>> {
     CorrectAnswer,
     WrongAnswer {
         correct_answers: I,
-        explanation: &'a Option<String>,
+        explanation: Option<String>,
     },
 }
 
@@ -30,5 +30,5 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn complete(
         &mut self,
         interaction: impl UserInteraction,
-    ) -> Feedback<impl Iterator<Item = &String>>;
+    ) -> Feedback<impl Iterator<Item = String>>;
 }
