@@ -4,10 +4,10 @@ use std::{fmt::Display, time::Duration};
 pub mod level;
 
 #[derive(Debug, Clone)]
-pub enum Feedback<I: IntoIterator<Item = String>> {
+pub enum Feedback {
     CorrectAnswer,
     WrongAnswer {
-        correct_answers: I,
+        correct_answers: Vec<String>,
         explanation: Option<String>,
     },
 }
@@ -27,8 +27,5 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
 
     fn until_next_repetition(&self) -> Duration;
 
-    fn complete(
-        self,
-        interaction: impl UserInteraction,
-    ) -> (Self, Feedback<impl IntoIterator<Item = String>>);
+    fn complete(self, interaction: impl UserInteraction) -> (Self, Feedback);
 }
