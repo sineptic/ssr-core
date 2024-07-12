@@ -25,7 +25,7 @@ pub trait UserInteraction {
 pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn get_desctiption(&self) -> &str;
 
-    fn next_repetition(&self) -> SystemTime;
+    fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;
 
     fn complete(self, interaction: impl UserInteraction) -> (Self, Feedback);
 }
