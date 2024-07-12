@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{fmt::Display, time::Duration};
+use std::{fmt::Display, time::SystemTime};
 
 pub mod level;
 
@@ -25,7 +25,7 @@ pub trait UserInteraction {
 pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn get_desctiption(&self) -> &str;
 
-    fn until_next_repetition(&self) -> Duration;
+    fn next_repetition(&self) -> SystemTime;
 
     fn complete(self, interaction: impl UserInteraction) -> (Self, Feedback);
 }
