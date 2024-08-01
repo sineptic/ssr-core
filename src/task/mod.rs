@@ -23,9 +23,21 @@ pub trait UserInteraction {
 }
 
 pub trait Task<'a>: Serialize + Deserialize<'a> {
+    type SharedState: SharedState<'a>;
+
     fn get_desctiption(&self) -> &str;
 
     fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;
 
-    fn complete(self, interaction: impl UserInteraction) -> (Self, Feedback);
+    fn complete(
+        self,
+        shared_state: &mut Self::SharedState,
+        interaction: impl UserInteraction,
+    ) -> (Self, Feedback);
+}
+
+pub trait SharedState<'a>: Default + Serialize + Deserialize<'a> {}
+
+pub trait SharedStateExt<'a>: SharedState<'a> {
+    fn optimize(&mut self);
 }
