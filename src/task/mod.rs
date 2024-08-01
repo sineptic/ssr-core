@@ -28,7 +28,6 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn get_desctiption(&self) -> &str;
 
     fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;
-
     fn complete(
         self,
         shared_state: &mut Self::SharedState,
@@ -37,6 +36,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
 }
 
 pub trait SharedState<'a>: Default + Serialize + Deserialize<'a> {}
+impl<'a> SharedState<'a> for () {}
 
 pub trait SharedStateExt<'a>: SharedState<'a> {
     fn optimize(&mut self);
