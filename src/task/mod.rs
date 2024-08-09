@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{fmt::Display, time::SystemTime};
+use std::time::SystemTime;
 
 pub mod level;
 
@@ -12,14 +12,27 @@ pub enum Feedback {
     },
 }
 
+pub enum InterationItem {
+    /// Does not have intractivity
+    Text(String),
+    /// Any utf8 input from user
+    BlankField,
+    /// One vector element
+    OneOf(Vec<(u32, String)>),
+    /// Any set of vector elements
+    AnyOf(Vec<(u32, String)>),
+    /// Any order of all items
+    Order(Vec<(u32, String)>),
+}
 pub trait UserInteraction {
-    fn get_string(&mut self, title: Option<impl Display>, prompt: impl Display) -> String;
-    fn select_item(&mut self, title: Option<impl Display>, items: &[impl Display]) -> usize;
-    fn select_multipe(
-        &mut self,
-        title: Option<impl Display>,
-        items: &[impl Display],
-    ) -> Box<[bool]>;
+    /// # Returns
+    /// Vector of all interaction results in the same order
+    /// # For implementors
+    /// - Text must be displayed without modification.
+    /// - `BlankField` must produce String, that user writes without modification.
+    /// - `OneOf`, `AnyOf`, `Order` must return spaces separated ids(first elems in tuples) in the same
+    ///   order as it's displayed on the user screen at the end.
+    fn interact(&mut self, items: Vec<InterationItem>) -> Vec<String>;
 }
 
 pub trait Task<'a>: Serialize + Deserialize<'a> {
@@ -31,7 +44,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn complete(
         self,
         shared_state: &mut Self::SharedState,
-        interaction: impl UserInteraction,
+        interaction: &mut impl UserInteraction,
     ) -> (Self, Feedback);
 }
 

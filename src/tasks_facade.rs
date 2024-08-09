@@ -18,7 +18,7 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn get_name(&self) -> &str;
     fn tasks_total(&self) -> usize;
     fn tasks_to_complete(&self) -> usize;
-    fn complete_task(&mut self, interaction: impl UserInteraction) -> Result<Feedback, Error>;
+    fn complete_task(&mut self, interaction: &mut impl UserInteraction) -> Result<Feedback, Error>;
     fn insert(&mut self, task: T);
 
     fn iter<'t>(&'t self) -> impl Iterator<Item = &'t T>
