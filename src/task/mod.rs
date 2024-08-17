@@ -14,7 +14,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
         &mut self,
         shared_state: &mut Self::SharedState,
         interaction: &mut impl FnMut(
-            &s_text_input_f::Blocks,
+            s_text_input_f::Blocks,
         ) -> std::io::Result<s_text_input_f::Response>,
     ) -> std::io::Result<()>;
 }
