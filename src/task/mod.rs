@@ -11,7 +11,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;
     /// If an error occurs, the task will remain unmodified.
     fn complete(
-        &self,
+        &mut self,
         shared_state: &mut Self::SharedState,
         interaction: &mut impl FnMut(
             &s_text_input_f::Blocks,
