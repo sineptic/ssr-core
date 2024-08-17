@@ -22,9 +22,9 @@ dependencies = [
 
 [[package]]
 name = "s_text_input_f"
-version = "0.2.2"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e51bf5e0409310de06d0edd9a1ed80d506a96834a1d1f54c53526079f5920164"
+checksum = "55e60b4b204a22d6641c9b3ef78a29ab0c2876336decbb748ffc75c45085c3d3"
 dependencies = [
  "serde",
 ]
