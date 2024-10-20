@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
-use std::{hash::Hash, time::SystemTime};
+use std::time::SystemTime;
 
 pub mod level;
 
-pub trait Task<'a>: Serialize + Deserialize<'a> + Hash {
+pub trait Task<'a>: Serialize + Deserialize<'a> {
     type SharedState: SharedState<'a>;
 
     fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;

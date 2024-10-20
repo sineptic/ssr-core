@@ -29,10 +29,11 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     ) -> Result<(), Error>;
     fn insert(&mut self, task: T);
 
-    fn iter<'t>(&'t self) -> impl Iterator<Item = &'t T>
+    /// Return itrator of (&task, id)
+    fn iter<'t>(&'t self) -> impl Iterator<Item = (&'t T, u128)>
     where
         T: 't;
     /// Remove task.
     /// Returns whether such an element was present.
-    fn remove(&mut self, task: &T) -> bool;
+    fn remove(&mut self, id: u128) -> bool;
 }
