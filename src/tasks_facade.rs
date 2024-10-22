@@ -24,6 +24,7 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn complete_task(
         &mut self,
         interaction: &mut impl FnMut(
+            u128,
             s_text_input_f::Blocks,
         ) -> std::io::Result<s_text_input_f::Response>,
     ) -> Result<(), Error>;
