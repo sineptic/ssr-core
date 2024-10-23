@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::time::Duration;
 use thiserror::Error;
 
+pub type TaskId = u64;
+
 #[derive(Debug, Error)]
 pub enum Error {
     #[error("no task to complete, time until next repetition: {}s", time_until_next_repetition.as_secs())]
@@ -24,17 +26,17 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn complete_task(
         &mut self,
         interaction: &mut impl FnMut(
-            u128,
+            TaskId,
             s_text_input_f::Blocks,
         ) -> std::io::Result<s_text_input_f::Response>,
     ) -> Result<(), Error>;
     fn insert(&mut self, task: T);
 
     /// Return itrator of (&task, id)
-    fn iter<'t>(&'t self) -> impl Iterator<Item = (&'t T, u128)>
+    fn iter<'t>(&'t self) -> impl Iterator<Item = (&'t T, TaskId)>
     where
         T: 't;
     /// Remove task.
     /// Returns whether such an element was present.
-    fn remove(&mut self, id: u128) -> bool;
+    fn remove(&mut self, id: TaskId) -> bool;
 }
