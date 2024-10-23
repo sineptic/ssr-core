@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::time::Duration;
 use thiserror::Error;
 
-pub type TaskId = u64;
+pub type TaskId = u128;
 
 #[derive(Debug, Error)]
 pub enum Error {
