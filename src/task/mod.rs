@@ -6,7 +6,11 @@ pub mod level;
 pub trait Task<'a>: Serialize + Deserialize<'a> {
     type SharedState: SharedState<'a>;
 
-    fn next_repetition(&self, _retrievability_goal: f64) -> SystemTime;
+    fn next_repetition(
+        &self,
+        shared_state: &Self::SharedState,
+        retrievability_goal: f64,
+    ) -> SystemTime;
     /// If an error occurs, the task will remain unmodified.
     fn complete(
         &mut self,
