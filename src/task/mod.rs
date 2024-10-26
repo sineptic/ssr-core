@@ -12,6 +12,8 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
         retrievability_goal: f64,
     ) -> SystemTime;
     /// If an error occurs, the task will remain unmodified.
+    /// # Errors
+    /// If interaction return error.
     fn complete(
         &mut self,
         shared_state: &mut Self::SharedState,

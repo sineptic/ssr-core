@@ -23,6 +23,8 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     fn tasks_total(&self) -> usize;
     fn tasks_to_complete(&self) -> usize;
     /// If an error occurs, the tasks facade will remain unmodified.
+    /// # Errors
+    /// If interaction return error.
     fn complete_task(
         &mut self,
         interaction: &mut impl FnMut(
