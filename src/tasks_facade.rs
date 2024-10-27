@@ -18,10 +18,13 @@ pub enum Error {
 }
 
 pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
-    fn new(name: String) -> Self;
+    fn new(name: String, desired_retention: f64) -> Self;
     fn get_name(&self) -> &str;
+    fn get_desired_retention(&self) -> f64;
+    fn set_desired_retention(&mut self, desired_retention: f64);
     fn tasks_total(&self) -> usize;
     fn tasks_to_complete(&self) -> usize;
+
     /// If an error occurs, the tasks facade will remain unmodified.
     /// # Errors
     /// If interaction return error.
@@ -41,6 +44,4 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     /// Remove task.
     /// Returns whether such an element was present.
     fn remove(&mut self, id: TaskId) -> bool;
-
-    fn set_desired_retention(&mut self, desired_retention: f64);
 }
