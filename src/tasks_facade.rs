@@ -41,4 +41,6 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     /// Remove task.
     /// Returns whether such an element was present.
     fn remove(&mut self, id: TaskId) -> bool;
+
+    fn set_desired_retention(&mut self, desired_retention: f64);
 }

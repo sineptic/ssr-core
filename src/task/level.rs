@@ -8,6 +8,6 @@ pub trait TaskLevel<'a>: Serialize + Deserialize<'a> {
     fn next_repetition(
         &self,
         shared_state: &Self::SharedState,
-        retrievability_goal: f64,
+        desired_retention: f64,
     ) -> SystemTime;
 }
