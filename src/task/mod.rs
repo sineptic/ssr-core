@@ -7,7 +7,7 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
     type SharedState: SharedState<'a>;
 
     /// blocks must contain interactive elements
-    fn new(input: s_text_input_f::BlocksWithAnswer) -> Option<Self>;
+    fn new(input: s_text_input_f::BlocksWithAnswer) -> Self;
     fn get_blocks(&self) -> s_text_input_f::BlocksWithAnswer;
 
     fn next_repetition(
