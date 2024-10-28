@@ -36,6 +36,7 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
         ) -> std::io::Result<s_text_input_f::Response>,
     ) -> Result<(), Error>;
     fn insert(&mut self, task: T);
+    fn create_task(&mut self, input: s_text_input_f::BlocksWithAnswer);
 
     /// Return itrator of (&task, id)
     fn iter<'t>(&'t self) -> impl Iterator<Item = (&'t T, TaskId)>
