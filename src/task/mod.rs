@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::time::SystemTime;
+use std::{error::Error, time::SystemTime};
 
 pub mod level;
 
@@ -31,6 +31,13 @@ pub trait Task<'a>: Serialize + Deserialize<'a> {
 pub trait SharedState<'a>: Default + Serialize + Deserialize<'a> {}
 impl SharedState<'_> for () {}
 
-pub trait SharedStateExt<'a>: SharedState<'a> {
-    fn optimize(&mut self);
+pub trait SharedStateExt<'a, T: Task<'a>>: SharedState<'a> {
+    /// # Errors
+    /// Guarantee to not modify anything.
+    fn optimize<'b>(
+        &mut self,
+        tasks: impl IntoIterator<Item = &'b T>,
+    ) -> Result<(), Box<dyn Error>>
+    where
+        T: 'b;
 }

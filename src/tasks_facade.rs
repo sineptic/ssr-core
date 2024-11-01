@@ -1,4 +1,4 @@
-use crate::task::Task;
+use crate::task::{SharedStateExt, Task};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 use thiserror::Error;
@@ -45,4 +45,11 @@ pub trait TasksFacade<'a, T: Task<'a>>: Serialize + Deserialize<'a> {
     /// Remove task.
     /// Returns whether such an element was present.
     fn remove(&mut self, id: TaskId) -> bool;
+
+    /// # Errors
+    /// If error occurs when optimizing.
+    /// Guarantee to not modify anything.
+    fn optimize(&mut self) -> Result<(), Box<dyn std::error::Error>>
+    where
+        T::SharedState: SharedStateExt<'a, T>;
 }
