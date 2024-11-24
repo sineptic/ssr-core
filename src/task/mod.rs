@@ -1,5 +1,6 @@
-use serde::{Deserialize, Serialize};
 use std::{error::Error, time::SystemTime};
+
+use serde::{Deserialize, Serialize};
 
 pub mod level;
 

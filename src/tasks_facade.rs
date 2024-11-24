@@ -1,7 +1,9 @@
-use crate::task::{SharedStateExt, Task};
-use serde::{Deserialize, Serialize};
 use std::time::Duration;
+
+use serde::{Deserialize, Serialize};
 use thiserror::Error;
+
+use crate::task::{SharedStateExt, Task};
 
 pub type TaskId = u128;
 
